@@ -1,9 +1,6 @@
 
 import express from 'express';
-import { fetchAndSaveAPOD } from './controllers/apodControllers';
 import { sequelize } from './db/config';
-import dotenv from 'dotenv';
-dotenv.config();
 import apodRouter from './router/apodRouter';
 
 const app = express();
