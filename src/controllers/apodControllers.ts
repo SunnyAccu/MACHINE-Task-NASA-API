@@ -1,7 +1,7 @@
 import axios from 'axios';
 import APOD from '../model/apodModel';
 
-export const fetchAndSaveAPOD = async (): Promise<string> => {
+export const fetchAndSaveAPOD = async (): Promise<{ status: string, data?: any }> => {
   try {
     const response = await axios.get('https://api.nasa.gov/planetary/apod', {
       params: {
@@ -15,8 +15,8 @@ export const fetchAndSaveAPOD = async (): Promise<string> => {
       explanation: apodData.explanation,
       url: apodData.url,
     });
-    return 'APOD data saved to the database.';
+    return { status: 'success', data: apodData };
   } catch (error) {
-    return 'Error fetching or saving APOD data.';
+    return { status: 'error' };
   }
 };
