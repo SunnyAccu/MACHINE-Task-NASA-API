@@ -41,7 +41,7 @@ DB_PASSWORD=your_database_password
 DB_NAME=apod_db
 API_KEY=your_nasa_api_key
 
-(iv) Set up the PostgreSQL database. Update the configurations in src/sequelize.ts if needed.
+(iv) Set up the PostgreSQL database.
 
 (v) Run the project:
 

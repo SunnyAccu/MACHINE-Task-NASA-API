@@ -1,15 +1,34 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import APOD from '../model/apodModel';
 import { Request, Response } from 'express';
+import { handleApiError } from './../utils/errorHandler';
 
 export const fetchAndSaveAPOD = async (req: Request, res: Response): Promise<void> => {
   try {
-    const response = await axios.get('https://api.nasa.gov/planetary/apod', {
+    const apiKey = process.env.api_key;
+
+    if (!apiKey) {
+      res.status(403).json({
+        success: false,
+        message: 'API key is missing',
+      });
+      return;
+    }
+
+    const apiUrl = 'https://api.nasa.gov/planetary/apod';
+
+    const response = await axios.get(apiUrl, {
       params: {
-        api_key: process.env.api_key,
+        api_key: apiKey,
       },
     });
+
     const apodData = response.data;
+
+    if (!apodData || !apodData.date || !apodData.title || !apodData.explanation || !apodData.url) {
+      throw new Error('Invalid response from NASA API. Missing required properties.');
+    }
+
     const result = await APOD.create({
       date: apodData.date,
       title: apodData.title,
@@ -23,9 +42,18 @@ export const fetchAndSaveAPOD = async (req: Request, res: Response): Promise<voi
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    if (axios.isAxiosError(error)) {
+      handleApiError(error as AxiosError, res);
+    } else if (error.message) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Internal Server Error',
+      });
+    }
   }
 };
