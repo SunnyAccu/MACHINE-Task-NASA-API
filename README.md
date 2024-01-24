@@ -22,12 +22,12 @@ Once registered, you will receive an API key. Add this key to your .env file.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/apod-node-ts-project.git
+   git clone https://github.com/SunnyAccu/MACHINE-Task-NASA-API.git
    ```
 
 (i) Navigate to the project directory:
 
-cd apod-node-ts-project
+cd MACHINE-Task-NASA-API
 
 (ii) Install dependencies:
 
