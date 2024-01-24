@@ -10,7 +10,7 @@ export const fetchAndSaveAPOD = async (req: Request, res: Response): Promise<voi
       },
     });
     const apodData = response.data;
-    await APOD.create({
+    const result = await APOD.create({
       date: apodData.date,
       title: apodData.title,
       explanation: apodData.explanation,
@@ -20,7 +20,7 @@ export const fetchAndSaveAPOD = async (req: Request, res: Response): Promise<voi
     res.status(200).json({
       success: true,
       message: 'APOD data saved to the database.',
-      data: apodData,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({

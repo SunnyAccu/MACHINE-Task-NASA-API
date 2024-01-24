@@ -1,4 +1,6 @@
 
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import { sequelize } from './db/config';
 import apodRouter from './router/apodRouter';
